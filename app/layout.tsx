@@ -1,20 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Roboto_Slab } from "next/font/google";
 import "./globals.css";
+import ToastProvider from "@/shared/providers/ToastProvider";
+import StoreProvider from "@/shared/providers/StoreProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const robotoSlab = Roboto_Slab({
+  variable: "--font-roboto-slab",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Job Application Tracker",
-  description: "Track your job applications in one place",
+  title: "Job Tracker & Resume Analyzer",
+  description: "Track your job applications and analyze resumes in one place",
 };
 
 export default function RootLayout({
@@ -23,11 +20,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var theme = localStorage.getItem('theme');
+                if (!theme) {
+                  theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                if (theme === 'dark') {
+                  document.documentElement.classList.add('dark');
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${robotoSlab.variable} antialiased`}
       >
-        {children}
+        <StoreProvider>
+          {children}
+        </StoreProvider>
+        <ToastProvider />
       </body>
     </html>
   );
