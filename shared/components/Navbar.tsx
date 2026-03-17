@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LuBriefcase, LuFileText, LuMenu, LuX } from "react-icons/lu";
+import { useSession, signOut } from "next-auth/react";
+import { LuBriefcase, LuFileText, LuMenu, LuX, LuLogOut } from "react-icons/lu";
 import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
@@ -13,6 +14,7 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { data: session } = useSession();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
@@ -48,7 +50,45 @@ export default function Navbar() {
           {mobileOpen ? <LuX size={18} /> : <LuMenu size={18} />}
         </button>
 
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+          {session?.user ? (
+            <div className="flex items-center gap-2">
+              {session.user.image && (
+                <img
+                  src={session.user.image}
+                  alt=""
+                  className="w-7 h-7 rounded-full"
+                />
+              )}
+              <span className="hidden md:inline text-sm text-muted-foreground">
+                {session.user.name}
+              </span>
+              <button
+                onClick={() => signOut({ callbackUrl: "/login" })}
+                className="inline-flex items-center justify-center w-8 h-8 rounded-md hover:bg-accent transition-colors text-muted-foreground"
+                title="Sign out"
+              >
+                <LuLogOut size={16} />
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5">
+              <Link
+                href="/login"
+                className="text-sm px-3 py-1.5 rounded-md transition-colors text-muted-foreground hover:bg-accent"
+              >
+                Sign in
+              </Link>
+              <Link
+                href="/register"
+                className="text-sm px-3 py-1.5 rounded-md bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
+              >
+                Sign up
+              </Link>
+            </div>
+          )}
+          <ThemeToggle />
+        </div>
       </div>
 
       {mobileOpen && (

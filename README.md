@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Job Tracker & Resume Analyzer
+
+A full-stack web application for tracking job applications and analyzing resumes.
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS 4, tw-animate-css
+- **UI:** shadcn/ui, React Icons
+- **State Management:** Redux Toolkit, React Redux
+- **Form & Validation:** Formik, Yup
+- **Authentication:** NextAuth.js v5 (Auth.js) - Google & GitHub providers
+- **Font:** Nunito (next/font)
+- **Notifications:** React Toastify
+- **Utilities:** clsx, tailwind-merge, class-variance-authority
+
+## Project Structure
+
+```
+app/
+  (auth)/
+    login/          # Login page
+    register/       # Register page
+  (dashboard)/
+    tracker/        # Job application tracker page
+    resume/         # Resume analyzer page
+    jobs/[id]/      # Application detail page
+  api/
+    auth/           # NextAuth route handler
+shared/
+  components/       # Navbar, ThemeToggle, etc.
+  providers/        # SessionProvider, StoreProvider, ToastProvider
+auth.ts             # NextAuth v5 configuration
+middleware.ts       # Route protection (auth middleware)
+```
+
+## Features
+
+- Sign in with Google and GitHub
+- Protected routes (auth check via middleware)
+- Job application tracking
+- Resume analysis
+- Dark / light theme support
+- Responsive design
+- Toast notifications
 
 ## Getting Started
 
-First, run the development server:
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Set up environment variables
+
+Copy `.env.example` to `.env.local` and fill in the values:
+
+```bash
+cp .env.example .env.local
+```
+
+Required variables:
+
+| Variable | Description |
+|---|---|
+| `AUTH_SECRET` | Generate with `npx auth secret` |
+| `AUTH_GOOGLE_ID` | OAuth Client ID from Google Cloud Console |
+| `AUTH_GOOGLE_SECRET` | OAuth Client Secret from Google Cloud Console |
+| `AUTH_GITHUB_ID` | OAuth App Client ID from GitHub Developer Settings |
+| `AUTH_GITHUB_SECRET` | OAuth App Client Secret from GitHub Developer Settings |
+
+### 3. Google OAuth Setup
+
+1. Create a new project or select an existing one in Google Cloud Console
+2. Configure the OAuth Consent Screen
+3. Go to Credentials > Create OAuth 2.0 Client ID
+4. Add `http://localhost:3000/api/auth/callback/google` as an authorized redirect URI
+
+### 4. Start the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Command | Description |
+|---|---|
+| `npm run dev` | Starts the development server |
+| `npm run build` | Builds for production |
+| `npm run start` | Starts the production server |
+| `npm run lint` | Runs ESLint code checks |
