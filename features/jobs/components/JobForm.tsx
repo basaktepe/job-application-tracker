@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
 interface JobFormProps {
-  onAdd: (job: JobApplication) => void;
+  onAdd: (job: Omit<JobApplication, "id">) => void;
   onCancel: () => void;
 }
 
@@ -45,7 +45,6 @@ export default function JobForm({ onAdd, onCancel }: JobFormProps) {
       validationSchema={validationSchema}
       onSubmit={(values) => {
         onAdd({
-          id: crypto.randomUUID(),
           company: values.company.trim(),
           position: values.position.trim(),
           status: values.status,

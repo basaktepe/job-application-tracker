@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
-import { JobApplication } from "@/features/jobs/types";
 import { useAppDispatch, useAppSelector } from "../store";
-import { loadJobs } from "@/features/jobs/store/jobsSlice";
-import { loadStages } from "@/features/jobs/store/stagesSlice";
+import { fetchJobs } from "@/features/jobs/store/jobsSlice";
+import { fetchStages } from "@/features/jobs/store/stagesSlice";
 
 export default function DataLoader({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
@@ -13,13 +12,10 @@ export default function DataLoader({ children }: { children: React.ReactNode }) 
 
   useEffect(() => {
     if (!loaded) {
-      const storedJobs = localStorage.getItem("job-applications");
-      const parsedJobs: JobApplication[] = storedJobs ? JSON.parse(storedJobs) : [];
-      dispatch(loadJobs(parsedJobs));
+      dispatch(fetchJobs());
     }
     if (!stagesLoaded) {
-      const storedStages = localStorage.getItem("job-stages");
-      dispatch(loadStages(storedStages ? JSON.parse(storedStages) : null));
+      dispatch(fetchStages());
     }
   }, [dispatch, loaded, stagesLoaded]);
 

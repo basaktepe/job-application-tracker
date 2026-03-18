@@ -29,7 +29,7 @@ export default function TrackerView() {
   const [showForm, setShowForm] = useState(false);
   const [showStageManager, setShowStageManager] = useState(false);
 
-  function onAddJob(job: JobApplication) {
+  function onAddJob(job: Omit<JobApplication, "id">) {
     handleAddJob(job, () => setShowForm(false));
   }
 

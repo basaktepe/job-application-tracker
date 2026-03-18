@@ -4,7 +4,7 @@ import { useState } from "react";
 import { StatusGroup, StatusInfo } from "../types";
 import { groups, groupLabels, groupBadgeColors, suggestedStatuses } from "../constants";
 import { useAppDispatch, useAppSelector } from "@/shared/store";
-import { addStage, removeStage, resetStages } from "../store/stagesSlice";
+import { addStageAsync, removeStageAsync, resetStagesAsync } from "../store/stagesSlice";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,7 @@ export default function StageManager() {
   );
 
   function handleAddStage(stage: StatusInfo) {
-    dispatch(addStage(stage));
+    dispatch(addStageAsync(stage));
     toast.success(`"${stage.label}" added`);
   }
 
@@ -38,7 +38,7 @@ export default function StageManager() {
       return;
     }
 
-    dispatch(addStage({ label: trimmed, group: newGroup }));
+    dispatch(addStageAsync({ label: trimmed, group: newGroup }));
     setNewLabel("");
     toast.success(`"${trimmed}" added`);
   }
@@ -49,12 +49,12 @@ export default function StageManager() {
       toast.warning(`Cannot delete "${label}" — it's in use`);
       return;
     }
-    dispatch(removeStage(label));
+    dispatch(removeStageAsync(label));
     toast.info(`"${label}" removed`);
   }
 
   function handleReset() {
-    dispatch(resetStages());
+    dispatch(resetStagesAsync());
     toast.info("Stages reset to defaults");
   }
 
