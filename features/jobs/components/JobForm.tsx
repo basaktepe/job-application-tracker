@@ -8,8 +8,9 @@ import { useAppSelector } from "@/shared/store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import NovelEditor from "@/components/ui/editor";
+import type { JSONContent } from "novel";
 
 interface JobFormProps {
   onAdd: (job: Omit<JobApplication, "id">) => void;
@@ -41,6 +42,7 @@ export default function JobForm({ onAdd, onCancel }: JobFormProps) {
         dateApplied: new Date().toISOString().split("T")[0],
         url: "",
         notes: "",
+        notesJson: "",
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
@@ -54,7 +56,7 @@ export default function JobForm({ onAdd, onCancel }: JobFormProps) {
         });
       }}
     >
-      {({ errors, touched }) => (
+      {({ errors, touched, values, setFieldValue }) => (
         <Card>
           <CardHeader className="px-3 py-3 sm:px-6 sm:py-4">
             <CardTitle className="text-base sm:text-lg">New Application</CardTitle>
@@ -175,13 +177,15 @@ export default function JobForm({ onAdd, onCancel }: JobFormProps) {
                 <Label htmlFor="notes" className="text-xs sm:text-sm">
                   Notes
                 </Label>
-                <Field
-                  as={Textarea}
-                  id="notes"
-                  name="notes"
-                  rows={2}
-                  placeholder="Referral from..."
-                  className="resize-none text-xs sm:text-sm"
+                <NovelEditor
+                  initialContent={values.notes}
+                  onChange={(json: JSONContent) => {
+                    setFieldValue("notesJson", JSON.stringify(json));
+                  }}
+                  onTextChange={(text: string) => {
+                    setFieldValue("notes", text);
+                  }}
+                  className="min-h-[100px]"
                 />
               </div>
 

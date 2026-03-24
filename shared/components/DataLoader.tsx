@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
 import { fetchJobs } from "@/features/jobs/store/jobsSlice";
 import { fetchStages } from "@/features/jobs/store/stagesSlice";
+import ErrorCard from "./ErrorCard";
 
 export default function DataLoader({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
@@ -12,10 +13,14 @@ export default function DataLoader({ children }: { children: React.ReactNode }) 
 
   useEffect(() => {
     if (!loaded) {
-      dispatch(fetchJobs());
+      dispatch(fetchJobs()).catch((err) => {
+        console.error("Failed to fetch jobs:", err);
+      });
     }
     if (!stagesLoaded) {
-      dispatch(fetchStages());
+      dispatch(fetchStages()).catch((err) => {
+        console.error("Failed to fetch stages:", err);
+      });
     }
   }, [dispatch, loaded, stagesLoaded]);
 

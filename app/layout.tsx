@@ -40,13 +40,14 @@ export default function RootLayout({
         />
       </head>
       <body
+        suppressHydrationWarning
         className={`${nunito.variable} antialiased`}
       >
-        <SessionProvider>
-          <StoreProvider>
+        <StoreProvider>
+          <SessionProvider>
             {children}
-          </StoreProvider>
-        </SessionProvider>
+          </SessionProvider>
+        </StoreProvider>
         <ToastProvider />
       </body>
     </html>

@@ -7,14 +7,13 @@ A full-stack web application for tracking job applications and analyzing resumes
 - **Framework:** Next.js 16 (App Router)
 - **Language:** TypeScript
 - **Database:** PostgreSQL (Supabase) + Prisma ORM
-- **Styling:** Tailwind CSS 4, tw-animate-css
+- **Styling:** Tailwind CSS 4
 - **UI:** shadcn/ui, React Icons
+- **Rich Text Editor:** Novel
 - **State Management:** Redux Toolkit, React Redux
 - **Form & Validation:** Formik, Yup
 - **Authentication:** NextAuth.js v5 (Auth.js) - Google & GitHub providers + Prisma Adapter
-- **Font:** Nunito (next/font)
 - **Notifications:** React Toastify
-- **Utilities:** clsx, tailwind-merge, class-variance-authority
 
 ## Project Structure
 

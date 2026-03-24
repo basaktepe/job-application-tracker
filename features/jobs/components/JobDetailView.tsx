@@ -27,6 +27,7 @@ import {
   LuBriefcase,
 } from "react-icons/lu";
 import { notFound } from "next/navigation";
+import NovelEditor from "@/components/ui/editor";
 
 interface JobDetailViewProps {
   id: string;
@@ -121,9 +122,13 @@ export default function JobDetailView({ id }: JobDetailViewProps) {
                 <LuStickyNote size={14} />
                 Notes
               </div>
-              <p className="text-xs sm:text-sm bg-muted/50 rounded-md p-3">
-                {job.notes}
-              </p>
+              <div className="bg-muted/50 rounded-md">
+                <NovelEditor
+                  initialContent={job.notes}
+                  editable={false}
+                  className="border-none bg-transparent"
+                />
+              </div>
             </div>
           )}
 

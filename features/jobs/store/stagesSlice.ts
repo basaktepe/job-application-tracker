@@ -67,6 +67,9 @@ const stagesSlice = createSlice({
         state.items = action.payload;
         state.loaded = true;
       })
+      .addCase(fetchStages.rejected, (state) => {
+        state.loaded = true;
+      })
       .addCase(addStageAsync.fulfilled, (state, action) => {
         const exists = state.items.some(
           (s) => s.label.toLowerCase() === action.payload.label.toLowerCase()
